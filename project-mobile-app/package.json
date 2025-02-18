@@ -1,18 +1,27 @@
 {
-  "name": "project-mobile-app",
+  "name": "camera-app",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web"
   },
   "dependencies": {
-    "expo": "~52.0.35",
+    "@react-native-async-storage/async-storage": "^2.1.1",
+    "@react-navigation/native": "^7.0.14",
+    "@react-navigation/stack": "^7.1.1",
+    "expo": "~52.0.33",
+    "expo-camera": "~16.0.16",
+    "expo-image-picker": "~16.0.6",
+    "expo-media-library": "~17.0.6",
     "expo-status-bar": "~2.0.1",
     "react": "18.3.1",
-    "react-native": "0.76.7"
+    "react-native": "0.76.7",
+    "react-native-gesture-handler": "~2.20.2",
+    "react-native-image-picker": "^8.0.0",
+    "uuid": "^11.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
