@@ -1,122 +1,57 @@
-import React, { Component } from "react";
-import { Alert, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { View, Text } from "react-native";
 import { Agenda } from "react-native-calendars";
-import testIDs from "../testIDs";
 
-export default class AgendaScreen extends Component {
-  state = {
-    items: undefined,
-  };
+const HomeScreen = () => {
+  const [items, setItems] = useState({
+    "2025-01-07": [{ name: "Meeting with client", time: "10:00 AM" }],
+    "2025-01-13": [
+      { name: "Team brainstorming session", time: "9:00 AM" },
+      { name: "Project presentation", time: "2:00 PM" },
+      { name: "Project presentation", time: "5:00 PM" },
+    ],
+    "2025-02-10": [
+      { name: "Team brainstorming session", time: "9:00 AM" },
+      { name: "Project presentation", time: "2:00 PM" },
+    ],
+    "2025-02-17": [
+      { name: "Team brainstorming session", time: "9:00 AM" },
+      { name: "Project presentation", time: "2:00 PM" },
+    ],
+  });
 
-  render() {
+  const renderEmptyData = () => {
     return (
-      <Agenda
-        pastScrollRange={2}
-        futureScrollRange={2}
-        testID={testIDs.agenda.CONTAINER}
-        items={this.state.items}
-        loadItemsForMonth={this.loadItems}
-        selected={"2025-01-16"}
-        renderItem={this.renderItem}
-        renderEmptyDate={this.renderEmptyDate}
-        rowHasChanged={this.rowHasChanged}
-        showClosingKnob={true}
-      />
-    );
-  }
-
-  loadItems = (day) => {
-    const items = this.state.items || {};
-
-    setTimeout(() => {
-      for (let i = -15; i < 85; i++) {
-        const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-        const strTime = this.timeToString(time);
-
-        if (!items[strTime]) {
-          items[strTime] = [];
-
-          const numItems = Math.floor(Math.random() * 3 + 1);
-          for (let j = 0; j < numItems; j++) {
-            items[strTime].push({
-              name: "Item for " + strTime + " #" + j,
-              height: Math.max(50, Math.floor(Math.random() * 150)),
-              day: strTime,
-            });
-          }
-        }
-      }
-
-      const newItems = {};
-      Object.keys(items).forEach((key) => {
-        newItems[key] = items[key];
-      });
-      this.setState({
-        items: newItems,
-      });
-    }, 10);
-  };
-
-  renderDay = (day) => {
-    if (day) {
-      return <Text style={styles.customDay}>{day.getDay()}</Text>;
-    }
-    return <View style={styles.dayItem} />;
-  };
-
-  renderItem = (reservation, isFirst) => {
-    const fontSize = isFirst ? 16 : 14;
-    const color = isFirst ? "black" : "#43515c";
-
-    return (
-      <TouchableOpacity
-        testID={testIDs.agenda.ITEM}
-        style={[styles.item, { height: reservation.height }]}
-        onPress={() => Alert.alert(reservation.name)}
-      >
-        <Text style={{ fontSize, color }}>{reservation.name}</Text>
-      </TouchableOpacity>
-    );
-  };
-
-  renderEmptyDate = () => {
-    return (
-      <View style={styles.emptyDate}>
-        <Text>This is empty date!</Text>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>No events for this day</Text>
       </View>
     );
   };
 
-  rowHasChanged = (r1, r2) => {
-    return r1.name !== r2.name;
-  };
+  return (
+    <View style={{ flex: 1, marginHorizontal: 10 }}>
+      <Agenda
+        pastScrollRange={1}
+        futureScrollRange={1}
+        items={items}
+        renderEmptyData={renderEmptyData}
+        renderItem={(item) => (
+          <View
+            style={{
+              marginVertical: 10,
+              marginTop: 30,
+              backgroundColor: "white",
+              marginHorizontal: 10,
+              padding: 10,
+            }}
+          >
+            <Text style={{ fontWeight: "bold" }}>{item.name}</Text>
+            <Text>{item.time}</Text>
+          </View>
+        )}
+      />
+    </View>
+  );
+};
 
-  timeToString(time) {
-    const date = new Date(time);
-    return date.toISOString().split("T")[0];
-  }
-}
-
-const styles = StyleSheet.create({
-  item: {
-    backgroundColor: "white",
-    flex: 1,
-    borderRadius: 5,
-    padding: 10,
-    marginRight: 10,
-    marginTop: 17,
-  },
-  emptyDate: {
-    height: 15,
-    flex: 1,
-    paddingTop: 30,
-  },
-  customDay: {
-    margin: 10,
-    fontSize: 24,
-    color: "green",
-  },
-  dayItem: {
-    marginLeft: 34,
-  },
-});
+export default HomeScreen;
