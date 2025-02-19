@@ -1,16 +1,30 @@
-import React from "react";
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View } from 'react-native';
+import CompassScreen from './src/screens/CompassScreen';
+import CameraScreen from './src/screens/CameraScreen';
+import HomeScreen from './src/screens/HomeScreen';
+import Profile from './src/screens/ProfileScreen';
+import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
 import HomeScreen from "./screen/HomeScreen";
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
+
 
 function MyStack() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Calendar" component={HomeScreen} />
-    </Stack.Navigator>
+    // <View style={styles.container}>
+      /* <Text>Open up App.js to start working on your app!</Text> */
+      // {/* <StatusBar style="auto" /> */}
+      /* <CompassScreen></CompassScreen> *}
+    /* </View> */
+     <NavigationContainer>
+     <Stack.Navigator>
+       <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
+       <Stack.Screen name="Camera" component={CameraScreen}></Stack.Screen>
+       <Stack.Screen name="Profile" component={Profile}></Stack.Screen>
+     </Stack.Navigator>
+   </NavigationContainer>
   );
 }
 
